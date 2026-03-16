@@ -2,7 +2,7 @@ import { useIntl } from "react-intl";
 import { useInterceptor } from "@infrastructure/hooks/useInterceptor";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { ErrorResponse } from "@application/models/ErrorResponse";
+import { ErrorMessage } from "@infrastructure/apis/client";
 import { is } from "@infrastructure/utils/typeUtils";
 import { useTokenHasExpired } from "@infrastructure/hooks/useOwnUser";
 import { ErrorCodes } from "@infrastructure/apis/client";
@@ -61,11 +61,11 @@ export const ToastNotifier = () => {
                 const cloned = response.clone(); // You need to clone the response because once the json() method is called the response stream is consumed and you cannot consume it again.
                 const error = await cloned.json();
 
-                if (error && is<ErrorResponse>(error)) {
+                if (error && is<ErrorMessage>(error)) {
                     toast.error(formatMessage(
                         { id: "notifications.errors.errorMessage" },
                         {
-                            code: formatMessage(getTranslationIdForKey(error.errorMessage.code))
+                            code: formatMessage(getTranslationIdForKey(error.code))
                         }
                     ));
                 }
