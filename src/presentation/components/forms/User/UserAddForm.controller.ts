@@ -1,4 +1,4 @@
-import { UserAddFormController, UserAddFormModel } from "./UserAddForm.types";
+import { UserAddFormController, UserAddFormModel, RoleName } from "./UserAddForm.types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useIntl } from "react-intl";
 import * as yup from "yup";
@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAddUser } from "@infrastructure/apis/api-management";
 import { useCallback } from "react";
-import { UserRoleEnum } from "@infrastructure/apis/client";
+import { Role } from "@infrastructure/apis/client";
 import { SelectChangeEvent } from "@mui/material";
 
 /**
@@ -19,7 +19,7 @@ const getDefaultValues = (initialData?: UserAddFormModel) => {
         email: "",
         name: "",
         password: "",
-        role: "" as UserRoleEnum
+        role: "USER" as RoleName
     };
 
     if (!isUndefined(initialData)) {
@@ -67,11 +67,12 @@ const useInitUserAddForm = () => {
                         id: "globals.password",
                     }),
                 })),
-        role: yup.string()
+        role: yup.mixed<RoleName>()
             .oneOf([ // The select input should have one of these values.
-                UserRoleEnum.Admin,
-                UserRoleEnum.Personnel,
-                UserRoleEnum.Client
+                "ADMIN",
+                "PERSONNEL",
+                "CLIENT",
+                "USER"
             ])
             .required(formatMessage(
                 { id: "globals.validations.requiredField" },
@@ -95,12 +96,19 @@ export const useUserAddFormController = (onSubmit?: () => void): UserAddFormCont
     const { defaultValues, resolver } = useInitUserAddForm();
     const { mutateAsync: add, status } = useAddUser();
     const queryClient = useQueryClient();
-    const submit = useCallback((data: UserAddFormModel) => // Create a submit callback to send the form data to the backend.
-        add(data).then(() => {
-            if (onSubmit) {
-                onSubmit();
-            }
-        }), [add, queryClient]);
+    const submit = useCallback((data: UserAddFormModel) => { // Create a submit callback to send the form data to the backend.
+        const payload = {
+            ...data,
+            username: data.name,
+            role: {
+                id: 2,
+                name: data.role
+            } as Role
+        };
+
+        return add(payload).then(() => {
+            if (onSubmit) onSubmit();
+        })}, [add, queryClient]);
 
     const {
         register,
@@ -113,8 +121,8 @@ export const useUserAddFormController = (onSubmit?: () => void): UserAddFormCont
         resolver // Add the validation resolver.
     });
 
-    const selectRole = useCallback((event: SelectChangeEvent<UserRoleEnum>) => { // Select inputs are tricky and may need their on callbacks to set the values.
-        setValue("role", event.target.value as UserRoleEnum, {
+    const selectRole = useCallback((event: SelectChangeEvent<string>) => { // Select inputs are tricky and may need their on callbacks to set the values.
+        setValue("role", event.target.value as RoleName, {
             shouldValidate: true,
         });
     }, [setValue]);

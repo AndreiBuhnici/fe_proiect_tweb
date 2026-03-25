@@ -17,8 +17,8 @@ export const useGetBooks = (pageNo: number, pageSize: number) => {
         queryFn: async () => {
             return await getFactory(token).getAllBooks({pageNo, pageSize});
         },
-        refetchInterval: Infinity, // User information may not be frequently updated so refetching the data periodically is not necessary.
-        refetchOnWindowFocus: false // This disables fetching the user information from the backend when focusing on the current window.
+        refetchInterval: Infinity, // Book information may not be frequently updated so refetching the data periodically is not necessary.
+        refetchOnWindowFocus: false // This disables fetching the book information from the backend when focusing on the current window.
     });
 
     return {
@@ -34,8 +34,8 @@ export const useGetBook = (author: string | null) => {
         ...useQuery({
             queryKey: [getBookQueryKey, token, author],
             queryFn: async () => await getFactory(token).getBooksByAuthor({author: author ?? ""}),
-            refetchInterval: Infinity, // User information may not be frequently updated so refetching the data periodically is not necessary.
-            refetchOnWindowFocus: false, // This disables fetching the user information from the backend when focusing on the current window.
+            refetchInterval: Infinity, // Book information may not be frequently updated so refetching the data periodically is not necessary.
+            refetchOnWindowFocus: false, // This disables fetching the book information from the backend when focusing on the current window.
             enabled: !isEmpty(author)
         }),
         queryKey: getBookQueryKey

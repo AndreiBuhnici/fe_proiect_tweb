@@ -12,7 +12,6 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { useUserAddFormController } from "./UserAddForm.controller";
 import { isEmpty, isUndefined } from "lodash";
-import { UserRoleEnum } from "@infrastructure/apis/client";
 
 /**
  * Here we declare the user add form component.
@@ -127,13 +126,10 @@ export const UserAddForm = (props: { onSubmit?: () => void }) => {
                                         })}
                                     </span>
                             </MenuItem>
-                            <MenuItem value={UserRoleEnum.Client}>
+                            <MenuItem value={"USER"}>
                                 <FormattedMessage id="globals.client" />
                             </MenuItem>
-                            <MenuItem value={UserRoleEnum.Personnel}>
-                                <FormattedMessage id="globals.personnel" />
-                            </MenuItem>
-                            <MenuItem value={UserRoleEnum.Admin}>
+                            <MenuItem value={"ADMIN"}>
                                 <FormattedMessage id="globals.admin" />
                             </MenuItem>
                         </Select>

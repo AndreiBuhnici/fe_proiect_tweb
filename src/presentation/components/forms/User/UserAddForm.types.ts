@@ -1,4 +1,4 @@
-import { UserRoleEnum } from "@infrastructure/apis/client";
+import { Role } from "@infrastructure/apis/client";
 import { FormController } from "../FormController";
 import {
     UseFormHandleSubmit,
@@ -9,11 +9,13 @@ import {
 } from "react-hook-form";
 import { SelectChangeEvent } from "@mui/material";
 
+export type RoleName = "ADMIN" | "PERSONNEL" | "CLIENT" | "USER";
+
 export type UserAddFormModel = {
     name: string;
     email: string;
     password: string;
-    role: UserRoleEnum;
+    role: RoleName;
 };
 
 export type UserAddFormState = {
@@ -25,7 +27,7 @@ export type UserAddFormActions = {
     watch: UseFormWatch<UserAddFormModel>;
     handleSubmit: UseFormHandleSubmit<UserAddFormModel>;
     submit: (body: UserAddFormModel) => void;
-    selectRole: (value: SelectChangeEvent<UserRoleEnum>) => void;
+    selectRole: (value: SelectChangeEvent<string>) => void;
 };
 export type UserAddFormComputed = {
     defaultValues: UserAddFormModel,

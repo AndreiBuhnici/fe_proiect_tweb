@@ -21,22 +21,34 @@ import { mapValues } from '../runtime';
 export interface SortObject {
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof SortObject
      */
-    empty?: boolean;
+    direction?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SortObject
+     */
+    nullHandling?: string;
     /**
      * 
      * @type {boolean}
      * @memberof SortObject
      */
-    sorted?: boolean;
+    ascending?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof SortObject
+     */
+    property?: string;
     /**
      * 
      * @type {boolean}
      * @memberof SortObject
      */
-    unsorted?: boolean;
+    ignoreCase?: boolean;
 }
 
 /**
@@ -56,9 +68,11 @@ export function SortObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'empty': json['empty'] == null ? undefined : json['empty'],
-        'sorted': json['sorted'] == null ? undefined : json['sorted'],
-        'unsorted': json['unsorted'] == null ? undefined : json['unsorted'],
+        'direction': json['direction'] == null ? undefined : json['direction'],
+        'nullHandling': json['nullHandling'] == null ? undefined : json['nullHandling'],
+        'ascending': json['ascending'] == null ? undefined : json['ascending'],
+        'property': json['property'] == null ? undefined : json['property'],
+        'ignoreCase': json['ignoreCase'] == null ? undefined : json['ignoreCase'],
     };
 }
 
@@ -73,9 +87,11 @@ export function SortObjectToJSONTyped(value?: SortObject | null, ignoreDiscrimin
 
     return {
         
-        'empty': value['empty'],
-        'sorted': value['sorted'],
-        'unsorted': value['unsorted']
+        'direction': value['direction'],
+        'nullHandling': value['nullHandling'],
+        'ascending': value['ascending'],
+        'property': value['property'],
+        'ignoreCase': value['ignoreCase'],
     };
 }
 

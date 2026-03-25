@@ -34,8 +34,27 @@ export function DataTable<T>(props: DataTableProps<T>) {
                             return {
                                 order: e.order,
                                 key: String(e.key),
-                                element: e.render ? e.render(entry[e.key], entry) : entry[e.key]?.toString()
-                            }
+                                element: (() => {
+                                    const value = entry[e.key];
+
+                                    if (e.render) {
+                                    return e.render(value, entry);
+                                    }
+
+                                    if (Array.isArray(value)) {
+                                    return value
+                                        .map(v => typeof v === "object" ? (v as any).name ?? JSON.stringify(v) : v)
+                                        .join(", ");
+                                    }
+
+                                    if (typeof value === "object" && value !== null) {
+                                    return JSON.stringify(value);
+                                    }
+
+                                    return value?.toString();
+                                })()
+                                };
+                            
                         }).concat((extraHeader ?? []).map(e => {
                             return {
                                 order: e.order,

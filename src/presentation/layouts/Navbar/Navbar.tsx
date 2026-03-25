@@ -12,7 +12,6 @@ import { resetProfile } from '@application/state-slices';
 import { useAppRouter } from '@infrastructure/hooks/useAppRouter';
 import { NavbarLanguageSelector } from '@presentation/components/ui/NavbarLanguageSelector/NavbarLanguageSelector';
 import { useOwnUserHasRole } from '@infrastructure/hooks/useOwnUser';
-import { UserRoleEnum } from '@infrastructure/apis/client';
 
 /**
  * This is the navigation menu that will stay at the top of the page.
@@ -20,7 +19,7 @@ import { UserRoleEnum } from '@infrastructure/apis/client';
 export const Navbar = () => {
   const {formatMessage} = useIntl();
   const {loggedIn} = useAppSelector(x => x.profileReducer);
-  const isAdmin = useOwnUserHasRole(UserRoleEnum.Admin);
+  const isAdmin = useOwnUserHasRole("ADMIN");
   const dispatch = useAppDispatch();
   const {redirectToHome} = useAppRouter();
   const logout = useCallback(() => {
@@ -46,13 +45,6 @@ export const Navbar = () => {
                 <Button color="inherit">
                   <Link style={{color: 'white'}} to={AppRoute.Users}>
                     {formatMessage({id: "globals.users"})}
-                  </Link>
-                </Button>
-              </div>
-              <div className="col-span-1">
-                <Button color="inherit">
-                  <Link style={{color: 'white'}} to={AppRoute.UserFiles}>
-                    {formatMessage({id: "globals.files"})}
                   </Link>
                 </Button>
               </div>

@@ -20,13 +20,6 @@ import {
     PageableObjectToJSON,
     PageableObjectToJSONTyped,
 } from './PageableObject';
-import type { BookDto } from './BookDto';
-import {
-    BookDtoFromJSON,
-    BookDtoFromJSONTyped,
-    BookDtoToJSON,
-    BookDtoToJSONTyped,
-} from './BookDto';
 import type { SortObject } from './SortObject';
 import {
     SortObjectFromJSON,
@@ -34,93 +27,100 @@ import {
     SortObjectToJSON,
     SortObjectToJSONTyped,
 } from './SortObject';
+import type { UserDto } from './UserDto';
+import {
+    UserDtoFromJSON,
+    UserDtoFromJSONTyped,
+    UserDtoToJSON,
+    UserDtoToJSONTyped,
+} from './UserDto';
 
 /**
  * 
  * @export
- * @interface PageBookDto
+ * @interface PageUserDto
  */
-export interface PageBookDto {
+export interface PageUserDto {
     /**
      * 
      * @type {number}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     totalPages?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     totalElements?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     size?: number;
     /**
      * 
-     * @type {Array<BookDto>}
-     * @memberof PageBookDto
+     * @type {Array<UserDto>}
+     * @memberof PageUserDto
      */
-    content?: Array<BookDto>;
+    content?: Array<UserDto>;
     /**
      * 
      * @type {number}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     number?: number;
     /**
      * 
-     * @type {Array<SortObject>}
-     * @memberof PageBookDto
+     * @type {SortObject}
+     * @memberof PageUserDto
      */
-    sort?: Array<SortObject>;
+    sort?: SortObject;
     /**
      * 
      * @type {boolean}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     first?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     last?: boolean;
     /**
      * 
      * @type {number}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     numberOfElements?: number;
     /**
      * 
      * @type {PageableObject}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     pageable?: PageableObject;
     /**
      * 
      * @type {boolean}
-     * @memberof PageBookDto
+     * @memberof PageUserDto
      */
     empty?: boolean;
 }
 
 /**
- * Check if a given object implements the PageBookDto interface.
+ * Check if a given object implements the PageUserDto interface.
  */
-export function instanceOfPageBookDto(value: object): value is PageBookDto {
+export function instanceOfPageUserDto(value: object): value is PageUserDto {
     return true;
 }
 
-export function PageBookDtoFromJSON(json: any): PageBookDto {
-    return PageBookDtoFromJSONTyped(json, false);
+export function PageUserDtoFromJSON(json: any): PageUserDto {
+    return PageUserDtoFromJSONTyped(json, false);
 }
 
-export function PageBookDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageBookDto {
+export function PageUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageUserDto {
     if (json == null) {
         return json;
     }
@@ -129,7 +129,7 @@ export function PageBookDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'size': json['size'] == null ? undefined : json['size'],
-        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(BookDtoFromJSON)),
+        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(UserDtoFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
         'sort': json['sort'] == null ? undefined : json['sort'],
         'first': json['first'] == null ? undefined : json['first'],
@@ -140,11 +140,11 @@ export function PageBookDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function PageBookDtoToJSON(json: any): PageBookDto {
-    return PageBookDtoToJSONTyped(json, false);
+export function PageUserDtoToJSON(json: any): PageUserDto {
+    return PageUserDtoToJSONTyped(json, false);
 }
 
-export function PageBookDtoToJSONTyped(value?: PageBookDto | null, ignoreDiscriminator: boolean = false): any {
+export function PageUserDtoToJSONTyped(value?: PageUserDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -154,9 +154,9 @@ export function PageBookDtoToJSONTyped(value?: PageBookDto | null, ignoreDiscrim
         'totalPages': value['totalPages'],
         'totalElements': value['totalElements'],
         'size': value['size'],
-        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(BookDtoToJSON)),
+        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(UserDtoToJSON)),
         'number': value['number'],
-        'sort': value['sort'],
+        'sort': value['sort'] == null ? undefined : value['sort'],
         'first': value['first'],
         'last': value['last'],
         'numberOfElements': value['numberOfElements'],

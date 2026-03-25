@@ -1,6 +1,5 @@
 import { useAppSelector } from "@application/store"
 import {useGetUser} from "@infrastructure/apis/api-management";
-import { UserRoleEnum } from "@infrastructure/apis/client";
 import { isUndefined } from "lodash";
 
 /**
@@ -8,22 +7,22 @@ import { isUndefined } from "lodash";
  * You can create new hooks by using and combining other hooks.
  */
 export const useOwnUser = () => {
-    const { userId } = useAppSelector(x => x.profileReducer); // Get the own user id from the redux storage.
-    const { data } = useGetUser(userId); // Get the client for the API.
-    return data?.response;
+    const { name } = useAppSelector(x => x.profileReducer); // Get the own user id from the redux storage.
+    const { data } = useGetUser(name); // Get the client for the API.
+    return data ? data : undefined;
 }
 
 /**
  * This hook returns if the current user has the given role.
  */
-export const useOwnUserHasRole = (role: UserRoleEnum) => {
+export const useOwnUserHasRole = (role: string) => {
     const ownUser = useOwnUser();
 
     if (isUndefined(ownUser)) {
         return;
     }
 
-    return ownUser?.role === role;
+    return ownUser?.roles?.map((role) => {return role.name}).includes(role);
 }
 
 /**

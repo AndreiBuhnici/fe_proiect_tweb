@@ -6,6 +6,7 @@ import { useBookTableController } from "./BookTable.controller";
 import { BookDto } from "@infrastructure/apis/client";
 import { BookAddDialog } from "../../Dialogs/BookAddDialog";
 import {DataTable} from "@presentation/components/ui/Tables/DataTable";
+import { useOwnUserHasRole } from "@infrastructure/hooks/useOwnUser";
 
 /**
  * This hook returns a header for the table with translated columns.
@@ -27,10 +28,11 @@ export const BookTable = () => {
     const { formatMessage } = useIntl();
     const header = useHeader();
     const { handleChangePage, handleChangePageSize, pagedData, isError, isLoading, tryReload, labelDisplay } = useBookTableController(); // Use the controller hook.
+    const isAdmin = useOwnUserHasRole("ADMIN");
 
     return <DataLoadingContainer isError={isError} isLoading={isLoading} tryReload={tryReload}> {/* Wrap the table into the loading container because data will be fetched from the backend and is not immediately available.*/}
-        <BookAddDialog /> {/* Add the button to open the user add modal. */}
-        { !isUndefined(pagedData) && !isUndefined(pagedData?.totalElements) && !isUndefined(pagedData?.content) && !isUndefined(pagedData?.size) &&
+        { isAdmin && <BookAddDialog /> } {/* Add the button to open the user add modal. */}
+        { !isUndefined(pagedData) && !isUndefined(pagedData?.totalElements) && !isUndefined(pagedData?.number) && !isUndefined(pagedData?.size) &&
             <TablePagination // Use the table pagination to add the navigation between the table pages.
                 component="div"
                 count={pagedData.totalElements} // Set the entry count returned from the backend.
